@@ -11,11 +11,24 @@ const app = express();
 
 app.use(bodyParser.json());
 
+//to allow react server
+app.use((req,res,next)=>{
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods','POST,GET,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers','Content-Type','Authorization');
+  if(req.method==='OPTIONS'){
+    return res.sendStatus(200); 
+  }
+  next();
+
+});
+
 
 //to use isAuth funtion.
 app.use(isAuth);
 
-app.use('/graphql',graphQlHttp({
+app.use('/graphql',
+graphQlHttp({
     schema: graphQlSchema,
     rootValue : graphQlResolvers,
     graphiql: true 
@@ -30,7 +43,7 @@ mongoose.connect(`mongodb://localhost:27017/events-react-dev`, {
     useUnifiedTopology: true
   }).then(()=>{
     console.log('Conntected to DB!');
-    app.listen(3000); //only start when DB is connected
+    app.listen(8000); //only start when DB is connected
   }).catch(err =>{
     console.log('DB Error : ', err.message);
   });

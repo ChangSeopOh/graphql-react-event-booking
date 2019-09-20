@@ -22,6 +22,7 @@ const eventSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     }
+    
 });
 /* GraphQl Type
         type Event {
