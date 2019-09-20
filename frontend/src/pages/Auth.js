@@ -72,6 +72,7 @@ class AuthPage extends Component {
             return res.json();
         })
         .then(resData=>{
+            //this.state.isLogin&&
             if(resData.data.login.token){
                 this.context.login(
                     resData.data.login.token,
@@ -96,7 +97,7 @@ class AuthPage extends Component {
                 <input type="password" id="password" ref={this.passwordEl}/>
             </div>
 
-            <div className="form-action">
+            <div className="form-actions">
                 <button type="submit">Submit</button>
                 <button type="button" onClick={this.switchModeHandler}>Switch to {this.state.isLogin ? 'Signup' :'Login'}</button>
 
