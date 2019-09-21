@@ -27,6 +27,7 @@ app.use((req,res,next)=>{
 //to use isAuth funtion.
 app.use(isAuth);
 
+//when deploy to live server, need to set false about graphiql
 app.use('/graphql',
 graphQlHttp({
     schema: graphQlSchema,

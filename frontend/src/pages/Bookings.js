@@ -61,13 +61,16 @@ class BookingsPage extends Component {
         this.setState({isLoading: true})
         const requestBody = {
             query: `
-                mutation {
-                    cancelBooking(bookingId:"${bookingId}") {
+                mutation CancelBooking($id:ID!) {
+                    cancelBooking(bookingId:$id) {
                         _id
                         title
                     }
                 }
-                `
+                `,
+            variables: {
+                id: bookingId
+            }
         };
 
         // backend
@@ -91,7 +94,7 @@ class BookingsPage extends Component {
                     const updatedBookings = prevState.bookings.filter(booking=>{
                         return booking._id !==bookingId;
                     });//return not canceled data 
-                    
+
                     return {bookings:updatedBookings, isLoading:false};
 
                 });

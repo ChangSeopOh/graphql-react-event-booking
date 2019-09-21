@@ -3,6 +3,7 @@ const DataLoader = require('dataloader');
 const Event = require('../../models/event');
 const User = require('../../models/user');
 const {dateToString} = require('../../helpers/date');
+
 const eventLoader = new DataLoader((eventIds)=>{
     return events(eventIds); 
 });   
@@ -43,7 +44,7 @@ const user = async userId => {
         return {
             ...user._doc,
             _id: user.id,
-            createdEvents: eventLoader.load.bind(this, user._doc.createdEvents)
+            createdEvents: () => eventLoader.loadMany(user._doc.createdEvents)
         };
     } catch (err) {
         throw err;
@@ -68,12 +69,11 @@ const transfromBooking = booking => {
         event: singleEvent.bind(this, booking._doc.event),
         createdAt: dateToString(booking._doc.createdAt),
         updatedAt: dateToString(booking._doc.updatedAt)
-
     }
 };
 
-exports.user = user;
 exports.transfromBooking = transfromBooking;
 exports.transformEvent = transformEvent;
+// exports.user = user;
 // exports.events = events;
-exports.singleEvent = singleEvent;
+// exports.singleEvent = singleEvent;
